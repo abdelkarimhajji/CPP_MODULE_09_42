@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/26 15:49:36 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/26 20:49:15 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void    errorParse(int state)
     else if(state == 1)
         std::cout << "error in parse" << std::endl;
     std::exit(1);
+}
+
+void    checkDate()
+{
+    
 }
 
 void    checkDateBitc(std::string const& line)
@@ -47,8 +52,11 @@ void    checkDateBitc(std::string const& line)
         str >> intNumber;
         if(intNumber > std::numeric_limits<int>::max())
             errorParse(1);
-        
+        checkDate();
     }
+    else
+        errorParse(0);
+    
 }
 
 int main()
