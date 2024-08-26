@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/26 12:09:13 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/26 15:49:36 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <limits>
 
 void    errorParse(int state)
 {
@@ -27,6 +29,8 @@ void    errorParse(int state)
 void    checkDateBitc(std::string const& line)
 {
     size_t pos = line.find(',');
+    std::string number;
+    long intNumber;
     if(pos != std::string::npos)
     {
         for(int i = pos + 1; i < line.length(); i++)
@@ -36,10 +40,14 @@ void    checkDateBitc(std::string const& line)
             else if (i != (pos + 1) && std::isdigit(line[i]) == false && line[i] != '.')
                 errorParse(1);
             else if(line[i + 1] == '\0' && std::isdigit(line[i]) == false)
-                errorParse(1);  
+                errorParse(1);
+            number += line[i];
         }
-        // std::cout << line[i] << std::endl;
-        // if(line[--i] )
+        std::stringstream str(number);
+        str >> intNumber;
+        if(intNumber > std::numeric_limits<int>::max())
+            errorParse(1);
+        
     }
 }
 
