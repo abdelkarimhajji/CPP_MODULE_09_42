@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/26 12:06:29 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/26 12:09:13 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ void    checkDateBitc(std::string const& line)
                 errorParse(1);
             else if (i != (pos + 1) && std::isdigit(line[i]) == false && line[i] != '.')
                 errorParse(1);
-            else if(line[i + 1] == '\0' )     
+            else if(line[i + 1] == '\0' && std::isdigit(line[i]) == false)
+                errorParse(1);  
         }
-        std::cout << line[i] << std::endl;
+        // std::cout << line[i] << std::endl;
         // if(line[--i] )
     }
 }
