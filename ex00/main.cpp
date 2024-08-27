@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 15:05:20 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/27 15:13:20 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void    checkMonth(size_t const& lenght, std::string line)
     int monthI;
     for(int i = lenght - 2; i < lenght; i++)
         month += line[i];
-    //     std::cout<< "month => " << month << std::endl;
-    // exit(1);
     if(month[1] == '-' || month[0] == '+')
         errorParse(1);
     std::stringstream str(month);
