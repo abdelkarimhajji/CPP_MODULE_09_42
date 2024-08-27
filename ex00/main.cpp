@@ -6,10 +6,9 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/26 20:49:15 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/27 12:42:49 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <fstream>
 #include <iostream>
@@ -26,9 +25,50 @@ void    errorParse(int state)
     std::exit(1);
 }
 
-void    checkDate()
+void    checkYear(size_t const& lenght, std::string line)
 {
-    
+    std::string year;
+    int yearI;
+    for(int i = 0; i < lenght; i++)
+        year += line[i];
+    if(year[0] == '+')
+        errorParse(1);
+    std::stringstream str(year);
+    str >> yearI;
+    if(yearI > 2024 || yearI < 2009)
+        errorParse(1);
+}
+
+void    checkMonth(size_t const& lenght, std::string line)
+{
+    std::string month;
+    int monthI;
+    for(int i = lenght - 2; i < lenght; i++)
+        month += line[i];
+    if(month[1] == '-' || month[0] == '+')
+        errorParse(1);
+    std::cout << month << std::endl;
+    std::stringstream str(month);
+    str >> monthI;
+    if(monthI > 12 || monthI < 1)
+        errorParse(1);
+}
+
+void    checkDate(std::string const& line)
+{
+    int count = 0;
+    size_t pos = line.find('-');
+    while (pos != std::string::npos)
+    {
+        if(count == 0)
+            checkYear(pos, line);
+        if(count == 1)
+            checkMonth(pos, line);
+        pos = line.find('-', pos + 1);
+        count++;
+    }
+    if(count != 2)
+        errorParse(1);
 }
 
 void    checkDateBitc(std::string const& line)
@@ -52,7 +92,7 @@ void    checkDateBitc(std::string const& line)
         str >> intNumber;
         if(intNumber > std::numeric_limits<int>::max())
             errorParse(1);
-        checkDate();
+        checkDate(line);
     }
     else
         errorParse(0);
@@ -79,8 +119,9 @@ int main()
                     checkDateBitc(line);
             }
             count++;
+            // if (count == 3)
+            //     exit (1);
         }
-        
     }
     else
     {
