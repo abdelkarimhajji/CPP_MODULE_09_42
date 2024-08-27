@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 15:13:20 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/27 16:11:30 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void    checkDate(std::string const& line)
             checkYear(pos, line);
         if(count == 1)
         {
-            checkMonth(pos, line);
-            checkDay(pos, line);
+            // checkMonth(pos, line);
+            // checkDay(pos, line);
         }
         pos = line.find('-', pos + 1);
         count++;
@@ -139,8 +139,6 @@ int main()
                     checkDateBitc(line);
             }
             count++;
-            // if (count == 3)
-            //     exit (1);
         }
     }
     else
