@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 12:42:49 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:57:26 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,34 @@ void    checkMonth(size_t const& lenght, std::string line)
     int monthI;
     for(int i = lenght - 2; i < lenght; i++)
         month += line[i];
+    //     std::cout<< "month => " << month << std::endl;
+    // exit(1);
     if(month[1] == '-' || month[0] == '+')
         errorParse(1);
-    std::cout << month << std::endl;
     std::stringstream str(month);
     str >> monthI;
     if(monthI > 12 || monthI < 1)
         errorParse(1);
+}
+
+
+void    checkDay(size_t const& lenght, std::string line)
+{
+    // std::cout << "i am here  and this is comfermation : " << line[lenght+3] << std::endl;
+    // exit(1);
+    std::string day;
+    int dayI;
+    for(int i = lenght + 1; i < lenght + 3; i++)
+        day += line[i];
+    if(day[0] == '+' || day[1] == ',')
+        errorParse(1);
+    std::stringstream str(day);
+    str >> dayI;
+    if(dayI > 31 || dayI < 1)
+    {
+       std::cout << dayI << std::endl; 
+        errorParse(1);
+    }
 }
 
 void    checkDate(std::string const& line)
@@ -63,7 +84,11 @@ void    checkDate(std::string const& line)
         if(count == 0)
             checkYear(pos, line);
         if(count == 1)
+        {
+            // std::cout << "this is the place where i call the tow : " << line << std::endl;
             checkMonth(pos, line);
+            checkDay(pos, line);
+        }
         pos = line.find('-', pos + 1);
         count++;
     }
