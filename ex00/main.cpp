@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ahajji <ahajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 16:11:30 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/27 16:31:18 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void    checkDay(size_t const& lenght, std::string line)
     }
 }
 
+
 void    checkDate(std::string const& line)
 {
     int count = 0;
@@ -90,6 +91,7 @@ void    checkDate(std::string const& line)
     if(count != 2)
         errorParse(1);
 }
+
 
 void    checkDateBitc(std::string const& line)
 {
@@ -118,6 +120,7 @@ void    checkDateBitc(std::string const& line)
         errorParse(0);
     
 }
+
 
 int main()
 {
