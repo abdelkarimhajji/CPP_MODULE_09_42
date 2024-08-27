@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 13:57:26 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/27 15:05:20 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void    checkMonth(size_t const& lenght, std::string line)
 
 void    checkDay(size_t const& lenght, std::string line)
 {
-    // std::cout << "i am here  and this is comfermation : " << line[lenght+3] << std::endl;
-    // exit(1);
     std::string day;
     int dayI;
     for(int i = lenght + 1; i < lenght + 3; i++)
@@ -85,7 +83,6 @@ void    checkDate(std::string const& line)
             checkYear(pos, line);
         if(count == 1)
         {
-            // std::cout << "this is the place where i call the tow : " << line << std::endl;
             checkMonth(pos, line);
             checkDay(pos, line);
         }
