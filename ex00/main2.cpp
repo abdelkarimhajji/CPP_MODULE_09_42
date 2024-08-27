@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:33:52 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 19:29:37 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/27 21:42:16 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ void    checkDay(size_t const& lenght, std::string line, int state)
     int dayI;
     for(int i = lenght + 1; i < lenght + 3; i++)
         day += line[i];
-    
-    if( (day[0] == '+' || day[1] == ' ' || line[day.length() + lenght + 1] != ' '))
+    // std::cout <<"'" <<day[day.length() - 1]<<"'" << std::endl;
+    // std::cout << line << std::endl;
+    if(state == 1 && (day[0] == '+' || day[1] == ' ' || line.length() > 10))
         errorParse(1);
-    // else if(day[0] == '+' || day[1] == ' ')
-    //     errorParse(1);
+    else if(day[0] == '+' || day[1] == ' ')
+        errorParse(1);
     std::stringstream str(day);
     str >> dayI;
     if(dayI > 31 || dayI < 1)
@@ -128,15 +129,15 @@ void    checkDateBitc(std::string const& line)
             std::stringstream str(number);
             str >> intNumber;
             if(intNumber > std::numeric_limits<int>::max())
-                errorParse(1); 
+                errorParse(1);
         }
         checkDate(line, 0);
     }
     else
     {
-        std::cout << line << std::endl;
-        exit(1);
-        // checkDate(line, 1);
+        // std::cout << line << std::endl;
+        // exit(1);
+        checkDate(line, 1);
     }
 }
 
@@ -150,13 +151,10 @@ int main()
     {
         while (std::getline(file, line))
         {
-            for(int i = 0; i < line.length(); i++)
-            {
-                if(count == 0 && line != "date | value")           
-                    errorParse(1);
-                else if(count != 0)
-                    checkDateBitc(line);
-            }
+            if(count == 0 && line != "date | value")           
+                errorParse(1);
+            else if(count != 0)
+                checkDateBitc(line);
             count++;
         }
     }
