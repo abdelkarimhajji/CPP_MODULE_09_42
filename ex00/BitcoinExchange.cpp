@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/28 15:04:56 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/28 15:49:08 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,6 @@ void     BitcoinExchange::checkMonthF(size_t const& lenght, std::string line)
         errorParse(1);
     std::stringstream str(month);
     str >> monthI;
-    if(monthI > 12 || monthI < 1)
-        errorParse(1);
 }
 void    BitcoinExchange::checkYearF(size_t const& lenght, std::string line)
 {
@@ -173,8 +171,6 @@ void    BitcoinExchange::checkYearF(size_t const& lenght, std::string line)
         errorParse(1);
     std::stringstream str(year);
     str >> yearI;
-    if(yearI > 2024 || yearI < 2009)
-        errorParse(1);
 }
 
 void    BitcoinExchange::checkDateF(std::string const& line, int state)
@@ -209,11 +205,6 @@ void    BitcoinExchange::checkDayF(size_t const& lenght, std::string line, int s
         errorParse(1);
     std::stringstream str(day);
     str >> dayI;
-    if(dayI > 31 || dayI < 1)
-    {
-       std::cout << dayI << std::endl; 
-        errorParse(1);
-    }
 }
 
 void    BitcoinExchange::checkDateBitcF(std::string const& line)
@@ -237,15 +228,16 @@ void    BitcoinExchange::checkDateBitcF(std::string const& line)
             std::stringstream str(number);
             str >> floatNumber;
             checkDateF(line, 0);
-            dataValue[line.substr(0, pos-1)] = floatNumber;
-            
+            // dataValue[line.substr(0, pos-1)].back(uu);
+            std::cout << "this is line ok for test : " << line << std::endl;
     }
     else
     {
         checkDateF(line, 1);
-        // dataValue[line.substr(0, pos-1)] = floatNumber;
+        dataValue[line.substr(0, pos-1)] = floatNumber;
+        std::cout << "this is line ok for test : " << line << std::endl;
     }
-    std::cout << "this is line ok for test : " << line << std::endl;
+    
 }
 
 void    BitcoinExchange::parseFile()
