@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:33:52 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 21:42:16 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/28 11:28:37 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void    checkDay(size_t const& lenght, std::string line, int state)
     int dayI;
     for(int i = lenght + 1; i < lenght + 3; i++)
         day += line[i];
-    // std::cout <<"'" <<day[day.length() - 1]<<"'" << std::endl;
-    // std::cout << line << std::endl;
     if(state == 1 && (day[0] == '+' || day[1] == ' ' || line.length() > 10))
         errorParse(1);
     else if(day[0] == '+' || day[1] == ' ')
@@ -121,14 +119,14 @@ void    checkDateBitc(std::string const& line)
         {
             std::stringstream str(number);
             str >> floatNumber;
-            if(floatNumber > std::numeric_limits<int>::max())
+            if(floatNumber > 1000)
                 errorParse(1);
         }
         else
         {
             std::stringstream str(number);
             str >> intNumber;
-            if(intNumber > std::numeric_limits<int>::max())
+            if(intNumber > 1000.0f)
                 errorParse(1);
         }
         checkDate(line, 0);

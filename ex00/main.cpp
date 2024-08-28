@@ -6,15 +6,11 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/27 19:00:03 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/28 12:32:42 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <limits>
+#include "BitcoinExchange.hpp"
 
 void    errorParse(int state)
 {
@@ -118,35 +114,31 @@ void    checkDateBitc(std::string const& line)
         checkDate(line);
     }
     else
-        errorParse(0);
+            errorParse(0);
 }
 
 
 int main()
 {
-    std::ifstream file("data.csv");
-    std::string line;
-    int count = 0;
-    if(file.is_open())
-    {
-        while (std::getline(file, line))
-        {
-            for(int i = 0; i < line.length(); i++)
-            {
-                if(count == 0 && line != "date,exchange_rate")
-                {
-                    std::cout << line << " this is i " << i<< "\n";                    
-                    errorParse(1);
-                }
-                else if(count != 0)
-                    checkDateBitc(line);
-            }
-            count++;
-        }
-    }
-    else
-    {
-        errorParse(0);
-    }
+    BitcoinExchange bit("fichier.txt");
+    bit.displayBitcoins();
+    // std::ifstream file("data.csv");
+    // std::string line;
+    // int count = 0;
+    // if(file.is_open())
+    // {
+    //     while (std::getline(file, line))
+    //     {
+    //             if(count == 0 && line != "date,exchange_rate")                  
+    //                 errorParse(1);
+    //             else if(count != 0)
+    //                 checkDateBitc(line);
+    //         count++;
+    //     }
+    // }
+    // else
+    // {
+    //     errorParse(0);
+    // }
     return 0;
 }
