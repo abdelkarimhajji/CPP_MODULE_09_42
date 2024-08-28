@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:27 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/28 15:04:56 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void    BitcoinExchange::checkDateBitc(std::string const& line)
 {
     size_t pos = line.find(',');
     std::string number;
-    long intNumber;
+    float floatNumber;
     if(pos != std::string::npos)
     {
         for(int i = pos + 1; i < line.length(); i++)
@@ -120,14 +120,14 @@ void    BitcoinExchange::checkDateBitc(std::string const& line)
             number += line[i];
         }
         std::stringstream str(number);
-        str >> intNumber;
-        if(intNumber > std::numeric_limits<int>::max())
+        str >> floatNumber;
+        if(floatNumber > std::numeric_limits<int>::max())
             errorParse(1);
         checkDate(line);
-        database[line.substr(0, pos-1)] = intNumber;
+        database[line.substr(0, pos-1)] = floatNumber;
     }
     else
-            errorParse(0);
+        errorParse(0);
 }
 
 void    BitcoinExchange::parseData()
@@ -147,9 +147,7 @@ void    BitcoinExchange::parseData()
         }
     }
     else
-    {
         errorParse(0);
-    }
 }
 void     BitcoinExchange::checkMonthF(size_t const& lenght, std::string line)
 {
@@ -222,7 +220,6 @@ void    BitcoinExchange::checkDateBitcF(std::string const& line)
 {
     size_t pos = line.find('|');
     std::string number;
-    long intNumber = 0;
     float floatNumber = 0;
 
     if(pos != std::string::npos)
@@ -237,24 +234,18 @@ void    BitcoinExchange::checkDateBitcF(std::string const& line)
                 errorParse(1);
             number += line[i];
         }
-        // if(number.find('.') != std::string::npos)
-        // {
-        //     std::stringstream str(number);
-        //     str >> floatNumber;
-        //     if(floatNumber > 1000)
-        //         errorParse(1);
-        // }
-        // else
-        // {
-        //     std::stringstream str(number);
-        //     str >> intNumber;
-        //     if(intNumber > 1000.0f)
-        //         errorParse(1);
-        // }
-        checkDateF(line, 0);
+            std::stringstream str(number);
+            str >> floatNumber;
+            checkDateF(line, 0);
+            dataValue[line.substr(0, pos-1)] = floatNumber;
+            
     }
     else
+    {
         checkDateF(line, 1);
+        // dataValue[line.substr(0, pos-1)] = floatNumber;
+    }
+    std::cout << "this is line ok for test : " << line << std::endl;
 }
 
 void    BitcoinExchange::parseFile()
@@ -283,8 +274,8 @@ void    BitcoinExchange::displayBitcoins()
 {
     parseData();
     parseFile();
-   std::map<std::string, int>::iterator it;
-for (it = this->database.begin(); it != this->database.end(); ++it) {
-    std::cout << "Key: " << it->first << ", Value: " << it->second << "\n";
+   std::map<std::string, float>::iterator it;
+for (it = this->dataValue.begin(); it != this->dataValue.end(); ++it) {
+    std::cout << std::fixed <<"Key: " << it->first << ", Value: " << it->second << "\n";
 }
 }
