@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/29 15:48:12 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/29 15:53:08 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,10 +294,10 @@ void    BitcoinExchange::parseFile()
                 pair = checkDateBitcF(line);
                 // std::cout << "this is first : " << pair.first  << "=> " << pair.second << std::endl;
                 std::map<std::string, float>::iterator it = this->database.lower_bound(pair.first);
-                std::cout << "this is second " <<  pair.second <<std::endl;
-                // if(pair.second < 0)
-                //     std::cout << "Error: not a positive number." << std::endl;
-                if(pair.second > std::numeric_limits<int>::max())
+                // std::cout << "this is second " <<  pair.second <<std::endl;
+                if(pair.second < 0)
+                    std::cout << "Error: not a positive number." << std::endl;
+                else if(pair.second >= std::numeric_limits<int>::max() + 1.0f)
                     std::cout << "Error: too large a number." << std::endl;
                 else if (it != database.end()) {
                     if(isValidDate(pair.first) != false)
@@ -305,6 +305,8 @@ void    BitcoinExchange::parseFile()
                     else
                         std::cout << "Error: bad input => " << pair.first << std::endl;    
                 }
+
+                
                 // else {
                 //     std::cout << "Date not found, and no next greater date" << std::endl;
                 // }
