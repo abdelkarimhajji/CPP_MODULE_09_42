@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/29 15:53:08 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/29 19:56:50 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,7 @@ void    BitcoinExchange::parseFile()
                 // std::cout << "this is second " <<  pair.second <<std::endl;
                 if(pair.second < 0)
                     std::cout << "Error: not a positive number." << std::endl;
-                else if(pair.second >= std::numeric_limits<int>::max() + 1.0f)
+                else  if(pair.second >= std::numeric_limits<int>::max() + 1.0f)
                     std::cout << "Error: too large a number." << std::endl;
                 else if (it != database.end()) {
                     if(isValidDate(pair.first) != false)
