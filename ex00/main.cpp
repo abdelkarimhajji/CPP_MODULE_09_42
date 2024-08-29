@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/28 12:32:42 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/29 10:11:01 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void    checkDateBitc(std::string const& line)
         checkDate(line);
     }
     else
-            errorParse(0);
+        errorParse(0);
 }
 
 

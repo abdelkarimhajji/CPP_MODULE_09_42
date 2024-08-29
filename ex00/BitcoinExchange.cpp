@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/28 15:49:08 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/29 15:48:12 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,10 @@ void    BitcoinExchange::checkDateBitc(std::string const& line)
         if(floatNumber > std::numeric_limits<int>::max())
             errorParse(1);
         checkDate(line);
-        database[line.substr(0, pos-1)] = floatNumber;
+        if(database.find(line.substr(0, pos)) == database.end())
+            database[line.substr(0, pos)] = floatNumber;
+        else
+            errorParse(1);
     }
     else
         errorParse(0);
@@ -166,7 +169,11 @@ void    BitcoinExchange::checkYearF(size_t const& lenght, std::string line)
     std::string year;
     int yearI;
     for(int i = 0; i < lenght; i++)
+    {
+        if(std::isdigit(line[i]) == false)
+            errorParse(1);
         year += line[i];
+    }
     if(year[0] == '+')
         errorParse(1);
     std::stringstream str(year);
@@ -189,8 +196,8 @@ void    BitcoinExchange::checkDateF(std::string const& line, int state)
         pos = line.find('-', pos + 1);
         count++;
     }
-    if(count != 2)
-        errorParse(1);
+    // if(count != 2)
+    //     errorParse(1);
 }
 
 void    BitcoinExchange::checkDayF(size_t const& lenght, std::string line, int state)
@@ -207,11 +214,11 @@ void    BitcoinExchange::checkDayF(size_t const& lenght, std::string line, int s
     str >> dayI;
 }
 
-void    BitcoinExchange::checkDateBitcF(std::string const& line)
+std::pair<std::string, float>    BitcoinExchange::checkDateBitcF(std::string const& line)
 {
     size_t pos = line.find('|');
     std::string number;
-    float floatNumber = 0;
+    float floatNumber = std::numeric_limits<float>::quiet_NaN();
 
     if(pos != std::string::npos)
     {
@@ -219,30 +226,61 @@ void    BitcoinExchange::checkDateBitcF(std::string const& line)
         {
             if(((i == (pos + 1)) && line[i] != ' ') || line[pos+2] == '.')
                 errorParse(1);
-            else if (i != (pos + 1) && std::isdigit(line[i]) == false && line[i] != '.')
+            else if (i != (pos + 1) && std::isdigit(line[i]) == false && line[i] != '.' && line[i] != '-')
                 errorParse(1);
             else if(line[i + 1] == '\0' && std::isdigit(line[i]) == false)
                 errorParse(1);
-            number += line[i];
+            if(i != (pos + 1))    
+                number += line[i];
         }
-            std::stringstream str(number);
-            str >> floatNumber;
-            checkDateF(line, 0);
-            // dataValue[line.substr(0, pos-1)].back(uu);
-            std::cout << "this is line ok for test : " << line << std::endl;
+
+        // std::cout << "this is first : " << "'"<<number <<"'"<< std::endl;
+        std::stringstream str(number);
+        str >> floatNumber;
+        size_t pos2 = line.find(' ');
+        if(pos2 != std::string::npos)
+        {
+            if(line[pos2 + 1] != '|')
+                errorParse(1);
+        }
+        else
+            errorParse(1);
+        //     isValidDate(line.substr(0, ));
+        //     // checkDateF(line, 0);
+        // else
+        //     errorParse(1);
+        // isValidDate()
+        
+        // std::cout << "this is line ok for test : " << line << std::endl;
     }
     else
     {
-        checkDateF(line, 1);
-        dataValue[line.substr(0, pos-1)] = floatNumber;
-        std::cout << "this is line ok for test : " << line << std::endl;
+         size_t pos3 = line.find(' ');
+        if(pos3 != std::string::npos)
+            errorParse(1);
+        // checkDateF(line, 1);
+        // std::cout << "this is line ok for test : " << line << std::endl;
     }
-    
+    //  std::cout << "this is first : " << floatNumber << std::endl;
+    // std::cout << "before return : ok : '"<< line.substr(0, pos - 1)<< "'" << std::endl;
+    return std::make_pair(line.substr(0, pos-1), floatNumber);
+}
+
+bool    BitcoinExchange::isValidDate(const std::string& date)
+{
+    std::stringstream ss(date);
+    std::tm t = {};
+    ss >> std::get_time(&t, "%Y-%m-%d");
+    if (ss.fail()) {
+        return false;
+    }
+    return true;
 }
 
 void    BitcoinExchange::parseFile()
 {
     std::ifstream file(this->nameFile);
+    std::pair<std::string, float> pair;
     std::string line;
     int count = 0;
     if(file.is_open())
@@ -252,7 +290,26 @@ void    BitcoinExchange::parseFile()
             if(count == 0 && line != "date | value")           
                 errorParse(1);
             else if(count != 0)
-                checkDateBitcF(line);
+            {
+                pair = checkDateBitcF(line);
+                // std::cout << "this is first : " << pair.first  << "=> " << pair.second << std::endl;
+                std::map<std::string, float>::iterator it = this->database.lower_bound(pair.first);
+                std::cout << "this is second " <<  pair.second <<std::endl;
+                // if(pair.second < 0)
+                //     std::cout << "Error: not a positive number." << std::endl;
+                if(pair.second > std::numeric_limits<int>::max())
+                    std::cout << "Error: too large a number." << std::endl;
+                else if (it != database.end()) {
+                    if(isValidDate(pair.first) != false)
+                        std::cout << std::fixed << std::setprecision(2) << pair.first << " => " << pair.second << " = " << pair.second * it->second << std::endl;
+                    else
+                        std::cout << "Error: bad input => " << pair.first << std::endl;    
+                }
+                // else {
+                //     std::cout << "Date not found, and no next greater date" << std::endl;
+                // }
+            }
+                        
             count++;
         }
     }
