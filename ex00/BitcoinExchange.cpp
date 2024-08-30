@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/30 11:03:30 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/30 11:29:39 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,22 @@ void    BitcoinExchange::parseFile()
     }
     else
         errorParse(0);
+}
+BitcoinExchange::BitcoinExchange(BitcoinExchange const &other)
+{
+    this->nameFile = other.nameFile;
+    this->database = other.database;
+}
+
+BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const& other)
+{
+    if(this != &other)
+    {
+        this->nameFile = other.nameFile;
+        this->database = other.database;
+    }
+    
+    return *this;
 }
 
 void    BitcoinExchange::displayBitcoins()

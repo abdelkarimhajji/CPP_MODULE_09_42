@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:00:56 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/30 11:01:52 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/30 11:12:02 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ class BitcoinExchange
     private:
         std::string nameFile;
         std::map<std::string, float> database;
-        std::map<std::string, float> dataValue;
         void    errorParse(int state);
         void    checkDateBitc(std::string const& line);
         void    checkDate(std::string const& line);
