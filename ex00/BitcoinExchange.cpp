@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/29 21:24:18 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/30 11:03:30 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,66 +152,22 @@ void    BitcoinExchange::parseData()
     else
         errorParse(0);
 }
-void     BitcoinExchange::checkMonthF(size_t const& lenght, std::string line)
+
+std::string  BitcoinExchange::returnValue(std::string line, size_t pos)
 {
-    
-    std::string month;
-    int monthI;
-    for(int i = lenght - 2; i < lenght; i++)
-        month += line[i];
-    if(month[1] == '-' || month[0] == '+')
-        errorParse(1);
-    std::stringstream str(month);
-    str >> monthI;
-}
-void    BitcoinExchange::checkYearF(size_t const& lenght, std::string line)
-{
-    std::string year;
-    int yearI;
-    for(int i = 0; i < lenght; i++)
+    std::string number;
+    for(int i = pos + 1; i < line.length(); i++)
     {
-        if(std::isdigit(line[i]) == false)
+        if(((i == (pos + 1)) && line[i] != ' ') || line[pos+2] == '.')
             errorParse(1);
-        year += line[i];
+        else if (i != (pos + 1) && std::isdigit(line[i]) == false && line[i] != '.' && line[i] != '-')
+            errorParse(1);
+        else if(line[i + 1] == '\0' && std::isdigit(line[i]) == false)
+            errorParse(1);
+        if(i != (pos + 1))    
+            number += line[i];
     }
-    if(year[0] == '+')
-        errorParse(1);
-    std::stringstream str(year);
-    str >> yearI;
-}
-
-void    BitcoinExchange::checkDateF(std::string const& line, int state)
-{
-    int count = 0;
-    size_t pos = line.find('-');
-    while (pos != std::string::npos)
-    {
-        if(count == 0)
-            checkYearF(pos, line);
-        if(count == 1)
-        {
-            checkMonthF(pos, line);
-            checkDayF(pos, line, state);
-        }
-        pos = line.find('-', pos + 1);
-        count++;
-    }
-    // if(count != 2)
-    //     errorParse(1);
-}
-
-void    BitcoinExchange::checkDayF(size_t const& lenght, std::string line, int state)
-{
-    std::string day;
-    int dayI;
-    for(int i = lenght + 1; i < lenght + 3; i++)
-        day += line[i];
-    if(state == 1 && (day[0] == '+' || day[1] == ' ' || line.length() > 10))
-        errorParse(1);
-    else if(day[0] == '+' || day[1] == ' ')
-        errorParse(1);
-    std::stringstream str(day);
-    str >> dayI;
+    return number;
 }
 
 std::pair<std::string, float>    BitcoinExchange::checkDateBitcF(std::string const& line)
@@ -219,22 +175,9 @@ std::pair<std::string, float>    BitcoinExchange::checkDateBitcF(std::string con
     size_t pos = line.find('|');
     std::string number;
     float floatNumber = std::numeric_limits<float>::quiet_NaN();
-
     if(pos != std::string::npos)
     {
-        for(int i = pos + 1; i < line.length(); i++)
-        {
-            if(((i == (pos + 1)) && line[i] != ' ') || line[pos+2] == '.')
-                errorParse(1);
-            else if (i != (pos + 1) && std::isdigit(line[i]) == false && line[i] != '.' && line[i] != '-')
-                errorParse(1);
-            else if(line[i + 1] == '\0' && std::isdigit(line[i]) == false)
-                errorParse(1);
-            if(i != (pos + 1))    
-                number += line[i];
-        }
-
-        // std::cout << "this is first : " << "'"<<number <<"'"<< std::endl;
+        number = returnValue(line, pos);
         std::stringstream str(number);
         str >> floatNumber;
         size_t pos2 = line.find(' ');
@@ -242,28 +185,18 @@ std::pair<std::string, float>    BitcoinExchange::checkDateBitcF(std::string con
         {
             if(line[pos2 + 1] != '|')
                 errorParse(1);
+            return std::make_pair(line.substr(0, pos-1), floatNumber);
         }
         else
             errorParse(1);
-        //     isValidDate(line.substr(0, ));
-        //     // checkDateF(line, 0);
-        // else
-        //     errorParse(1);
-        // isValidDate()
-        
-        // std::cout << "this is line ok for test : " << line << std::endl;
     }
     else
     {
-         size_t pos3 = line.find(' ');
+        size_t pos3 = line.find(' ');
         if(pos3 != std::string::npos)
             errorParse(1);
-        // checkDateF(line, 1);
-        // std::cout << "this is line ok for test : " << line << std::endl;
     }
-    //  std::cout << "this is first : " << floatNumber << std::endl;
-    // std::cout << "before return : ok : '"<< line.substr(0, pos - 1)<< "'" << std::endl;
-    return std::make_pair(line.substr(0, pos-1), floatNumber);
+    return std::make_pair(line.substr(0, line.length()), floatNumber);
 }
 
 bool    BitcoinExchange::isValidDate(const std::string& date)
@@ -277,6 +210,32 @@ bool    BitcoinExchange::isValidDate(const std::string& date)
     return true;
 }
 
+int     BitcoinExchange::getYear(std::string date)
+{
+    size_t  pos = date.find('-');
+    std::string yearStr = date.substr(0, pos);
+    
+    int year = std::atoi(yearStr.c_str());
+    return year;
+}
+
+void    BitcoinExchange::checkErrors(std::string first, float second)
+{
+    std::map<std::string, float>::iterator it = this->database.lower_bound(first);
+    if(isValidDate(first) == false)
+        std::cout << "Error: bad input => " << first << std::endl;
+    else if(std::isnan(second))
+        std::cout << "Error: no value." << std::endl;
+    else if(isValidDate(first) != false && (getYear(first) < 2009 || getYear(first) > 2024))
+        std::cout << "Error: date not availabel" << std::endl;
+    else if(second < 0)
+        std::cout << "Error: not a positive number." << std::endl;
+    else if(second >= std::numeric_limits<int>::max() + 1.0f)
+        std::cout << "Error: too large a number." << std::endl;
+    else if (it != database.end())
+        std::cout << std::setprecision(2) << first << " => " << second << " = " << second * it->second << std::endl;
+}
+
 void    BitcoinExchange::parseFile()
 {
     std::ifstream file(this->nameFile);
@@ -287,44 +246,26 @@ void    BitcoinExchange::parseFile()
     {
         while (std::getline(file, line))
         {
-            if(count == 0 && line != "date | value")           
+            if(count == 0 && line != "date | value")
                 errorParse(1);
             else if(count != 0)
             {
                 pair = checkDateBitcF(line);
-                std::map<std::string, float>::iterator it = this->database.lower_bound(pair.first);
-                if(pair.second < 0)
-                    std::cout << "Error: not a positive number." << std::endl;
-                else  if(pair.second >= std::numeric_limits<int>::max() + 1.0f)
-                    std::cout << "Error: too large a number." << std::endl;
-                else if (it != database.end()) {
-                    if(isValidDate(pair.first) != false)
-                        std::cout << std::setprecision(2) << pair.first << " => " << pair.second << " = " << pair.second * it->second << std::endl;
-                    else
-                        std::cout << "Error: bad input => " << pair.first << std::endl;    
-                }
-
-                
-                // else {
-                //     std::cout << "Date not found, and no next greater date" << std::endl;
-                // }
-            }
-                        
+                checkErrors(pair.first, pair.second);
+            }     
             count++;
         }
     }
     else
-    {
         errorParse(0);
-    }
 }
 
 void    BitcoinExchange::displayBitcoins()
 {
     parseData();
     parseFile();
-   std::map<std::string, float>::iterator it;
-for (it = this->dataValue.begin(); it != this->dataValue.end(); ++it) {
-    std::cout << std::fixed <<"Key: " << it->first << ", Value: " << it->second << "\n";
-}
+    // std::map<std::string, float>::iterator it;
+    // for (it = this->dataValue.begin(); it != this->dataValue.end(); ++it) {
+    //     std::cout << std::fixed <<"Key: " << it->first << ", Value: " << it->second << "\n";
+    // }
 }
