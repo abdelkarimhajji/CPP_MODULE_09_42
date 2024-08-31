@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 11:35:48 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/31 12:25:46 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:26:16 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int main(int ac, char **av)
 {
     int i = 0;
     int index = -1;
+    int count  = 0;
     std::vector<int> container;
     char operations[] = {'+','-','*','/'};
     int size = sizeof(operations) / sizeof(operations[0]);
     while (av[1][i])
     {
-        // std::cout << "'" << av[1][i] << "'" ;
         if(std::isdigit(av[1][i]) != false)
             container.push_back(av[1][i] - '0');
         else
@@ -37,22 +37,17 @@ int main(int ac, char **av)
                 if(av[1][i] == operations[j])
                     index = j;
             }
-            // if(index != -1)
-            //     std::cout << "operation[j] : " << operations[index] << std::endl;
-       
         if(index == -1 && av[1][i] != ' ' && std::isdigit(av[1][i]) == false)
             error();
         else if(index != -1)
         {
-            // std::cout <<"size  '" << container.size() << "'"<<std::endl;
+            count++;
             if(container.size() >= 2)
             {
-                // std::cout <<"result '" << operations[index] << "'"<<std::endl;
                 int  firstNumber = container[container.size() - 2];
                 int secondNumber = container[container.size() - 1];
-                // std::cout << "first number : " <<firstNumber << std::endl;
-                // std::cout << "second number : " <<secondNumber << std::endl;
                 int result;
+                count--;
                 switch(operations[index])
                 {
                     case '+':
@@ -70,6 +65,7 @@ int main(int ac, char **av)
                         else
                             error();
                         break;
+                   
                 }
                 container.pop_back();
                 container.pop_back();
@@ -78,11 +74,12 @@ int main(int ac, char **av)
             index = -1;
         }
         }
-    
        i++;
     }
+    if(container.size() > 1 || count != 0)
+        error();
     i = 0;
-    //  std::cout << container[container.size() - 2] << std::endl;
+    std::cout << "this is count ok : " << count << std::endl;
     while (i < container.size())
     {
         std::cout << container[i] << std::endl;
