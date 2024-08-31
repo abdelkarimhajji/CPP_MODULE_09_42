@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 11:38:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/30 12:18:03 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/31 15:42:05 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,18 @@
 class RPN
 {
     private:
-        
+        std::vector<int> container;
+        char operations[4];
+        int size;
+        void    error();
+        void    returnIndex(char arg, char *operations, int *index, int size);
+        void    displayContainer(std::vector<int> &container);
+        void    makeOperation(std::vector<int> &container, char *operations, int &count, int index);
     public:
-        
+        RPN();
+        RPN(RPN const &RPN);
+        void    calculate(char **av);
+        ~RPN();
 };
 
 #endif
