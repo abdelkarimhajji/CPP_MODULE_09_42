@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 11:38:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/30 11:42:58 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/30 12:18:03 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define RPN_HPP
 
 #include <iostream>
+#include <vector>
+#include <cctype>
 
 class RPN
 {
