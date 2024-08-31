@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 11:38:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/31 15:42:05 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/31 15:48:29 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ class RPN
     public:
         RPN();
         RPN(RPN const &RPN);
+        RPN& operator=(RPN const &RPN);
         void    calculate(char **av);
         ~RPN();
 };

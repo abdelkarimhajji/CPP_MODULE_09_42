@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 12:09:42 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/31 15:46:02 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/31 15:50:06 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ RPN::RPN(RPN const &RPN)
         this->operations[i] = RPN.operations[i];
 }
 
+RPN& RPN::operator=(RPN const &RPN)
+{
+    if(this != &RPN)
+    {
+        this->container = RPN.container;
+        this->size = RPN.size;
+        for(int i = 0; i < this->size; i++)
+            this->operations[i] = RPN.operations[i];
+    }
+    return *this;
+}
+
 void    RPN::error()
 {
     std::cout << "Error" << std::endl;
@@ -51,6 +63,7 @@ void RPN::returnIndex(char arg, char *operations, int *index, int size)
     if(*index == -1 && arg != ' ' && std::isdigit(arg) == false)
         error();
 }
+
 void    RPN::displayContainer(std::vector<int> &container)
 {
     for (int i = 0; i < container.size(); i++)
