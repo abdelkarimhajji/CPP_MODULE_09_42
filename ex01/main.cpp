@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 11:35:48 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/31 13:26:16 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/08/31 14:04:14 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,53 @@ void    error()
 {
     std::cout << "Error" << std::endl;
     exit(0);
+}
+
+void returnIndex(char arg, char *operations, int *index, int size)
+{
+    
+    for(int j = 0; j < size; j++)
+    {
+        if(arg == operations[j])
+            *index = j;
+    }
+    if(*index == -1 && arg != ' ' && std::isdigit(arg) == false)
+        error();
+}
+
+void    makeOperation(std::vector<int> &container, char *operations, int &count, int index)
+{
+        int  firstNumber = container[container.size() - 2];
+        int secondNumber = container[container.size() - 1];
+        int result;
+        count--;
+        switch(operations[index])
+        {
+            case '+':
+                result = firstNumber + secondNumber;
+                break;
+            case '-':
+                result = firstNumber - secondNumber;
+                break;
+            case '*':
+                result = firstNumber * secondNumber;
+                break;
+            case '/':
+                if(secondNumber != 0)
+                    result = firstNumber / secondNumber;
+                else
+                    error();
+                break;
+            
+        }
+        container.pop_back();
+        container.pop_back();
+        container.push_back(result);
+}
+void    displayContainer(std::vector<int> &container)
+{
+    for (int i = 0; i < container.size(); i++)
+        std::cout << container[i] << std::endl;
 }
 
 int main(int ac, char **av)
@@ -32,59 +79,19 @@ int main(int ac, char **av)
             container.push_back(av[1][i] - '0');
         else
         {
-            for(int j = 0; j < size; j++)
+            returnIndex(av[1][i], operations, &index, size);
+            if(index != -1)
             {
-                if(av[1][i] == operations[j])
-                    index = j;
+                count++;
+                if(container.size() >= 2)
+                    makeOperation(container, operations, count, index);
+                index = -1;
             }
-        if(index == -1 && av[1][i] != ' ' && std::isdigit(av[1][i]) == false)
-            error();
-        else if(index != -1)
-        {
-            count++;
-            if(container.size() >= 2)
-            {
-                int  firstNumber = container[container.size() - 2];
-                int secondNumber = container[container.size() - 1];
-                int result;
-                count--;
-                switch(operations[index])
-                {
-                    case '+':
-                        result = firstNumber + secondNumber;
-                        break;
-                    case '-':
-                        result = firstNumber - secondNumber;
-                        break;
-                    case '*':
-                        result = firstNumber * secondNumber;
-                        break;
-                    case '/':
-                        if(secondNumber != 0)
-                            result = firstNumber / secondNumber;
-                        else
-                            error();
-                        break;
-                   
-                }
-                container.pop_back();
-                container.pop_back();
-                container.push_back(result);
-            }
-            index = -1;
-        }
         }
        i++;
     }
     if(container.size() > 1 || count != 0)
         error();
-    i = 0;
-    std::cout << "this is count ok : " << count << std::endl;
-    while (i < container.size())
-    {
-        std::cout << container[i] << std::endl;
-        i++;
-    }
-    
+    displayContainer(container); 
     return 0;
 }
