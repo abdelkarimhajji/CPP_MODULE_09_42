@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:00:39 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/05 13:19:05 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/05 21:48:56 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,47 @@ int main()
     callfunction(arr, 0);
     return 0;
 }
+// void merge(std::vector<int>& arr, int l, int m, int r) {
+//     // Merge two subarrays arr[l..m] and arr[m+1..r] into a temporary array
+//     std::vector<int> temp(r-l+1);
+//     int i = l, j = m+1, k = 0;
+
+//     while (i <= m && j <= r) {
+//         if (arr[i] <= arr[j]) {
+//             temp[k] = arr[i];
+//             i++;
+//         } else {
+//             temp[k] = arr[j];
+//             j++;
+//         }
+//         k++;
+//     }
+
+//     // Copy the remaining elements of the left and right subarrays, if any
+//     while (i <= m) {
+//         temp[k] = arr[i];
+//         i++;
+//         k++;
+//     }
+//     while (j <= r) {
+//         temp[k] = arr[j];
+//         j++;
+//         k++;
+//     }
+
+//     // Copy the sorted subarray back to the original array
+//     for (i = l; i <= r; i++) {
+//         arr[i] = temp[i-l];
+//     }
+// }
+
+// void mergeSort(std::vector<int>& arr, int l, int r) {
+//     if (l < r) {
+//         int m = l + (r - l) / 2; // Find the middle point
+
+//         mergeSort(arr, l, m); // Sort first half
+//         mergeSort(arr, m+1, r); // Sort second half
+
+//         merge(arr, l, m, r); // Merge the sorted halves
+//     }
+// }
