@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:00:39 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/05 21:48:56 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/07 11:00:29 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,18 @@ void    sortFunction(std::vector<int> arr, int half)
     
 }
 
-void     callfunction(std::vector<int> arr,  int i)
+void     callfunction(std::vector<int> arr,  int l, int r)
 {
-    if (i == arr.size()) {
-        return;
-    }
-    std::cout << arr[i] << std::endl;
-    callfunction(arr, i + 1);
-    std::cout << arr[i] << std::endl;
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        std::cout << "left : " << arr[l] << std::endl;
+        std::cout << "right : " << arr[r] << std::endl;
+        callfunction(arr, l, m);
+        // std::cout << arr[i] << std::endl;
     // int half = arr.size() / 2;
     // sortFunction(arr, half);
     // sortFunction(arr, half + 1);
+    }
 }
 
 int main()
@@ -46,9 +47,10 @@ int main()
     arr.push_back(24);
     arr.push_back(26);
     
-    callfunction(arr, 0);
+    callfunction(arr, 0, arr.size() - 1);
     return 0;
 }
+
 // void merge(std::vector<int>& arr, int l, int m, int r) {
 //     // Merge two subarrays arr[l..m] and arr[m+1..r] into a temporary array
 //     std::vector<int> temp(r-l+1);
