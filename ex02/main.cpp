@@ -6,92 +6,113 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:00:39 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/07 11:00:29 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/08 09:43:45 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include<iostream>
 #include<vector>
 
-void    sortFunction(std::vector<int> arr, int half)
-{
+// void    sortFunction(std::vector<int> arr, int half)
+// {
     
-}
+// }
 
-void     callfunction(std::vector<int> arr,  int l, int r)
-{
-    if (l < r) {
-        int m = l + (r - l) / 2;
-        std::cout << "left : " << arr[l] << std::endl;
-        std::cout << "right : " << arr[r] << std::endl;
-        callfunction(arr, l, m);
-        // std::cout << arr[i] << std::endl;
-    // int half = arr.size() / 2;
-    // sortFunction(arr, half);
-    // sortFunction(arr, half + 1);
+// void     callfunction(std::vector<int> arr,  int l, int r)
+// {
+//     // if (l < r) {
+//     //     int m = l + (r - l) / 2;
+//     //     std::cout << "left : " << arr[l] << std::endl;
+//     //     std::cout << "right : " << arr[r] << std::endl;
+//     //     callfunction(arr, l, m);
+//     //    std::cout << "2left : " << arr[l] << std::endl;
+//     //     std::cout << "2right : " << arr[r] << std::endl;
+//     // // int half = arr.size() / 2;
+//     // // sortFunction(arr, half);
+//     // // sortFunction(arr, half + 1);
+//     // }
+//     if(arr.size() == r)
+//         return;
+//     std::cout << "this is after r => " << arr[r] << std::endl;
+//     callfunction(arr, 0, r + 1);
+//     if(r <= 2)
+//         return;
+//     callfunction(arr, 0, r - 1);
+//     std::cout << "this is befor r => " << arr[r] << std::endl;
+// }
+
+// int main()
+// {
+//     std::vector<int> arr;
+//     arr.push_back(4);
+//     arr.push_back(8);
+//     arr.push_back(10);
+//     arr.push_back(12);
+//     arr.push_back(14);
+//     arr.push_back(16);
+//     arr.push_back(18);
+//     arr.push_back(20);
+//     arr.push_back(22);
+//     arr.push_back(24);
+//     arr.push_back(26);
+    
+//     // callfunction(arr, 0, arr.size() - 1);
+//     callfunction(arr, 0, 0);
+//     return 0;
+// }
+
+#include <iostream>
+using namespace std;
+
+void merge(int* arr, int* arrL, int* arrR, int sizeL, int sizeR) {
+    int l = 0, r = 0, i = 0;
+    while (l < sizeL && r < sizeR) {
+        if (arrL[l] < arrR[r]) {
+            arr[i++] = arrL[l++];
+        } else {
+            arr[i++] = arrR[r++];
+        }
+    }
+    while (l < sizeL) {
+        arr[i++] = arrL[l++];
+    }
+    while (r < sizeR) {
+        arr[i++] = arrR[r++];
     }
 }
 
-int main()
-{
-    std::vector<int> arr;
-    arr.push_back(4);
-    arr.push_back(8);
-    arr.push_back(10);
-    arr.push_back(12);
-    arr.push_back(14);
-    arr.push_back(16);
-    arr.push_back(18);
-    arr.push_back(20);
-    arr.push_back(22);
-    arr.push_back(24);
-    arr.push_back(26);
-    
-    callfunction(arr, 0, arr.size() - 1);
-    return 0;
+void mergeSort(int* arr, int size) {
+    if (size < 2) return;
+
+    int mid = size / 2;
+    int* arrL = new int[mid];
+    int* arrR = new int[size - mid];
+
+    for (int i = 0; i < mid; i++) {
+        arrL[i] = arr[i];
+    }
+    for (int i = mid; i < size; i++) {
+        arrR[i - mid] = arr[i];
+    }
+
+    mergeSort(arrL, mid);
+    mergeSort(arrR, size - mid);
+
+    merge(arr, arrL, arrR, mid, size - mid);
+
+    delete[] arrL;
+    delete[] arrR;
 }
 
-// void merge(std::vector<int>& arr, int l, int m, int r) {
-//     // Merge two subarrays arr[l..m] and arr[m+1..r] into a temporary array
-//     std::vector<int> temp(r-l+1);
-//     int i = l, j = m+1, k = 0;
+int main() {
+    int arr[] = {8, 5, 4, 3, 2, 9};
+    int size = sizeof(arr) / sizeof(arr[0]);
 
-//     while (i <= m && j <= r) {
-//         if (arr[i] <= arr[j]) {
-//             temp[k] = arr[i];
-//             i++;
-//         } else {
-//             temp[k] = arr[j];
-//             j++;
-//         }
-//         k++;
-//     }
+    mergeSort(arr, size);
 
-//     // Copy the remaining elements of the left and right subarrays, if any
-//     while (i <= m) {
-//         temp[k] = arr[i];
-//         i++;
-//         k++;
-//     }
-//     while (j <= r) {
-//         temp[k] = arr[j];
-//         j++;
-//         k++;
-//     }
+    for(int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
 
-//     // Copy the sorted subarray back to the original array
-//     for (i = l; i <= r; i++) {
-//         arr[i] = temp[i-l];
-//     }
-// }
-
-// void mergeSort(std::vector<int>& arr, int l, int r) {
-//     if (l < r) {
-//         int m = l + (r - l) / 2; // Find the middle point
-
-//         mergeSort(arr, l, m); // Sort first half
-//         mergeSort(arr, m+1, r); // Sort second half
-
-//         merge(arr, l, m, r); // Merge the sorted halves
-//     }
-// }
+    return 0;
+}
