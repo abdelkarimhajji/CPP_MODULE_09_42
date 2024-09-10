@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:20:55 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/10 15:43:48 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/10 18:47:35 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void    PmergeMe::recursionFunction(int sizePair, int numberPairs)
             
         }
     }
-    
     recursionFunction(sizePair * 2, numberPairs / 2);
     if(!rest.empty())
     {
@@ -149,9 +148,7 @@ std::vector<int>    PmergeMe::sortAll()
     for (int j = 0; j < largeNumbers.size(); j++) {
         for (int i = j + 1; i < largeNumbers.size(); i++) {
             if (largeNumbers[j] > largeNumbers[i]) {
-                int tmp = largeNumbers[j];
-                largeNumbers[j] = largeNumbers[i];
-                largeNumbers[i] = tmp;
+                std::swap(largeNumbers[j],largeNumbers[i]);
             }
         }
     }
@@ -163,6 +160,7 @@ std::vector<int>    PmergeMe::sortAll()
     }
     return (largeNumbers);
 }
+
 void    PmergeMe::sort()
 {
     recursionFunction(2, args.size()/2);
