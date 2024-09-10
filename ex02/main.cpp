@@ -5,17 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 11:20:10 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/10 13:10:46 by ahajji           ###   ########.fr       */
+/*   Created: 2024/09/08 13:17:55 by ahajji            #+#    #+#             */
+/*   Updated: 2024/09/10 13:22:33 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<iostream>
-#include<vector>
-#include<cctype>
-#include<string>
-#include <sstream>
-#include <climits>
+#include "PmergeMe.hpp"
 
 void    error(std::string arg)
 {
@@ -34,9 +29,6 @@ std::vector<int>    sortAll(std::vector<int> &arr)
         else    
             largeNumbers.push_back(arr[i]);
     }
-    
-    // for(int i = 0; i < smallNumbers.size(); i++)
-    //     std::cout << smallNumbers[i] << std::endl;
     int tmp;
     int valid = 0;
     int j = 0;
@@ -117,6 +109,9 @@ int main(int ac, char **av)
 {
     std::vector<int> arr;
     std::vector<int> sortumbers;
+    
+    if(ac < 2)
+        error("Not enough args");
     
     for(int i = 1; i < ac; i++)
     {
