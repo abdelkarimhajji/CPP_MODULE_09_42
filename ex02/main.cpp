@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main2.cpp                                          :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 11:20:10 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/10 12:04:41 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/10 13:10:46 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include<iostream>
 #include<vector>
+#include<cctype>
+#include<string>
+#include <sstream>
+#include <climits>
+
+void    error(std::string arg)
+{
+    std::cout << arg << std::endl;
+    exit(0);
+}
 
 std::vector<int>    sortAll(std::vector<int> &arr)
 {
@@ -110,10 +120,27 @@ int main(int ac, char **av)
     
     for(int i = 1; i < ac; i++)
     {
+        long long num;
+        std::istringstream(av[i]) >> num;
+        if(num > INT_MAX)
+            error("Number Large than max int");
+        if(num < 0)
+            error("Negative Number");
+        for(int j = 0; j < av[i][j]; j++)
+        {
+            if(!std::isdigit(av[i][j]))
+                error("Is not digit");
+        }
         arr.push_back(std::atoi(av[i]));
     }
-    
-
+    for(int i = 0; i < arr.size(); i++)
+    {
+        for(int j = i + 1; j < arr.size(); j++)
+        {
+            if(arr[i] == arr[j])
+                error("Duplicate Number");
+        }
+    }
     recursionFunction(arr, 2, arr.size()/2);
     sortumbers = sortAll(arr);
     for(int i = 0; i < sortumbers.size(); i++)
