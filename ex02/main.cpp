@@ -1,118 +1,122 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   main2.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 10:00:39 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/08 09:43:45 by ahajji           ###   ########.fr       */
+/*   Created: 2024/09/08 11:20:10 by ahajji            #+#    #+#             */
+/*   Updated: 2024/09/10 12:04:41 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include<iostream>
 #include<vector>
 
-// void    sortFunction(std::vector<int> arr, int half)
-// {
+std::vector<int>    sortAll(std::vector<int> &arr)
+{
+    std::vector<int> largeNumbers;
+    std::vector<int> smallNumbers;
+    for(int i = 0; i < arr.size(); i++)
+    {
+        if(i % 2 != 0)
+            smallNumbers.push_back(arr[i]);
+        else    
+            largeNumbers.push_back(arr[i]);
+    }
     
-// }
-
-// void     callfunction(std::vector<int> arr,  int l, int r)
-// {
-//     // if (l < r) {
-//     //     int m = l + (r - l) / 2;
-//     //     std::cout << "left : " << arr[l] << std::endl;
-//     //     std::cout << "right : " << arr[r] << std::endl;
-//     //     callfunction(arr, l, m);
-//     //    std::cout << "2left : " << arr[l] << std::endl;
-//     //     std::cout << "2right : " << arr[r] << std::endl;
-//     // // int half = arr.size() / 2;
-//     // // sortFunction(arr, half);
-//     // // sortFunction(arr, half + 1);
-//     // }
-//     if(arr.size() == r)
-//         return;
-//     std::cout << "this is after r => " << arr[r] << std::endl;
-//     callfunction(arr, 0, r + 1);
-//     if(r <= 2)
-//         return;
-//     callfunction(arr, 0, r - 1);
-//     std::cout << "this is befor r => " << arr[r] << std::endl;
-// }
-
-// int main()
-// {
-//     std::vector<int> arr;
-//     arr.push_back(4);
-//     arr.push_back(8);
-//     arr.push_back(10);
-//     arr.push_back(12);
-//     arr.push_back(14);
-//     arr.push_back(16);
-//     arr.push_back(18);
-//     arr.push_back(20);
-//     arr.push_back(22);
-//     arr.push_back(24);
-//     arr.push_back(26);
-    
-//     // callfunction(arr, 0, arr.size() - 1);
-//     callfunction(arr, 0, 0);
-//     return 0;
-// }
-
-#include <iostream>
-using namespace std;
-
-void merge(int* arr, int* arrL, int* arrR, int sizeL, int sizeR) {
-    int l = 0, r = 0, i = 0;
-    while (l < sizeL && r < sizeR) {
-        if (arrL[l] < arrR[r]) {
-            arr[i++] = arrL[l++];
-        } else {
-            arr[i++] = arrR[r++];
+    // for(int i = 0; i < smallNumbers.size(); i++)
+    //     std::cout << smallNumbers[i] << std::endl;
+    int tmp;
+    int valid = 0;
+    int j = 0;
+    for (int j = 0; j < largeNumbers.size(); j++) {
+        for (int i = j + 1; i < largeNumbers.size(); i++) {
+            if (largeNumbers[j] > largeNumbers[i]) {
+                int tmp = largeNumbers[j];
+                largeNumbers[j] = largeNumbers[i];
+                largeNumbers[i] = tmp;
+            }
         }
     }
-    while (l < sizeL) {
-        arr[i++] = arrL[l++];
+   
+    for(int i = 0; i < smallNumbers.size(); i++)
+    {
+        std::vector<int>::iterator lower = std::lower_bound(largeNumbers.begin(), largeNumbers.end(), smallNumbers[i]);
+        largeNumbers.insert(lower, smallNumbers[i]);
     }
-    while (r < sizeR) {
-        arr[i++] = arrR[r++];
+
+    return (largeNumbers);
+}
+
+void    recursionFunction(std::vector<int> &arr, int sizePair, int numberPairs)
+{
+    std::vector<int> rest;
+    std::vector<std::vector<std::vector<int> > > arrVector;
+    
+    if(numberPairs < 1)
+        return;
+    int count = numberPairs * sizePair;
+    while (count < arr.size())
+    {
+        rest.push_back(arr[count]);
+        count++;
+    }
+    
+    for (int i = 0; i < numberPairs * sizePair; )
+    {
+        std::vector<std::vector<int> > pair;
+        for (int k = 0; k < 2; k++)
+        {
+            std::vector<int> half;
+            for (int j = 0; j < sizePair/2; j++)
+                half.push_back(arr[i++]);
+            pair.push_back(half);
+        }
+        arrVector.push_back(pair);
+    }
+
+    for (int i = 0; i < numberPairs; i++)
+    {
+        if(arrVector[i][0].back() > arrVector[i][1].back())
+            std::swap(arrVector[i][0], arrVector[i][1]);
+    }
+    arr.clear();
+    for (int i = 0; i < numberPairs;i++ )
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            for (int k = 0; k <sizePair/2; k++)
+            {
+                
+                arr.push_back(arrVector[i][j][k]);
+            }
+            
+        }
+    }
+    
+    recursionFunction(arr, sizePair * 2, numberPairs / 2);
+    if(!rest.empty())
+    {
+        for(int i = 0; i < rest.size();i++)
+            arr.push_back(rest[i]);
     }
 }
 
-void mergeSort(int* arr, int size) {
-    if (size < 2) return;
-
-    int mid = size / 2;
-    int* arrL = new int[mid];
-    int* arrR = new int[size - mid];
-
-    for (int i = 0; i < mid; i++) {
-        arrL[i] = arr[i];
+int main(int ac, char **av)
+{
+    std::vector<int> arr;
+    std::vector<int> sortumbers;
+    
+    for(int i = 1; i < ac; i++)
+    {
+        arr.push_back(std::atoi(av[i]));
     }
-    for (int i = mid; i < size; i++) {
-        arrR[i - mid] = arr[i];
-    }
+    
 
-    mergeSort(arrL, mid);
-    mergeSort(arrR, size - mid);
-
-    merge(arr, arrL, arrR, mid, size - mid);
-
-    delete[] arrL;
-    delete[] arrR;
-}
-
-int main() {
-    int arr[] = {8, 5, 4, 3, 2, 9};
-    int size = sizeof(arr) / sizeof(arr[0]);
-
-    mergeSort(arr, size);
-
-    for(int i = 0; i < size; i++) {
-        cout << arr[i] << " ";
-    }
-
+    recursionFunction(arr, 2, arr.size()/2);
+    sortumbers = sortAll(arr);
+    for(int i = 0; i < sortumbers.size(); i++)
+        std::cout << sortumbers[i] << std::endl;
     return 0;
 }
