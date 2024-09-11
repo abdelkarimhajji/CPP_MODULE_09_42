@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:17:55 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/10 15:42:27 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 07:55:16 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,21 @@
 #include<string>
 #include <sstream>
 #include <climits>
+#include <ctime>
+#include <deque>
 
 class   PmergeMe
 {
     private:
         std::vector<int> args;
+        std::deque<int> args_;
         int ac;
         void    checkErrors(char **av);
         void    cheackDuplicate();
         void    recursionFunction(int sizePair, int numberPairs);
+        void    recursionFunction_(int sizePair, int numberPairs);
         std::vector<int>    sortAll();
+        std::deque<int>    sortAll_();
     public:
         PmergeMe();
         PmergeMe(int ac, char **av);
@@ -36,6 +41,7 @@ class   PmergeMe
         PmergeMe& operator=(const PmergeMe& other);
         static void error(std::string arg);
         void   sort();
+        void   sort_();
         ~PmergeMe();
 };
 
