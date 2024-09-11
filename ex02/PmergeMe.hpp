@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:17:55 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/11 07:55:16 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 08:22:08 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ class   PmergeMe
         PmergeMe& operator=(const PmergeMe& other);
         static void error(std::string arg);
         void   sort();
-        void   sort_();
         ~PmergeMe();
 };
 
