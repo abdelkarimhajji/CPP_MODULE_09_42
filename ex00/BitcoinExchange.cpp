@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/30 11:29:39 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 14:51:36 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void    BitcoinExchange::errorParse(int state)
 void    BitcoinExchange::checkYear(size_t const& lenght, std::string line)
 {
     std::string year;
-    int yearI;
-    for(int i = 0; i < lenght; i++)
+    size_t yearI;
+    for(size_t i = 0; i < lenght; i++)
         year += line[i];
     if(year[0] == '+')
         errorParse(1);
@@ -53,8 +53,8 @@ void    BitcoinExchange::checkYear(size_t const& lenght, std::string line)
 void    BitcoinExchange::checkDay(size_t const& lenght, std::string line)
 {
     std::string day;
-    int dayI;
-    for(int i = lenght + 1; i < lenght + 3; i++)
+    size_t dayI;
+    for(size_t i = lenght + 1; i < lenght + 3; i++)
         day += line[i];
     if(day[0] == '+' || day[1] == ',')
         errorParse(1);
@@ -71,8 +71,8 @@ void    BitcoinExchange::checkMonth(size_t const& lenght, std::string line)
 {
     
     std::string month;
-    int monthI;
-    for(int i = lenght - 2; i < lenght; i++)
+    size_t monthI;
+    for(size_t i = lenght - 2; i < lenght; i++)
         month += line[i];
     if(month[1] == '-' || month[0] == '+')
         errorParse(1);
@@ -109,7 +109,7 @@ void    BitcoinExchange::checkDateBitc(std::string const& line)
     float floatNumber;
     if(pos != std::string::npos)
     {
-        for(int i = pos + 1; i < line.length(); i++)
+        for(size_t i = pos + 1; i < line.length(); i++)
         {
             if((i == (pos + 1)) && std::isdigit(line[i]) == false)
                 errorParse(1);
@@ -156,7 +156,7 @@ void    BitcoinExchange::parseData()
 std::string  BitcoinExchange::returnValue(std::string line, size_t pos)
 {
     std::string number;
-    for(int i = pos + 1; i < line.length(); i++)
+    for(size_t i = pos + 1; i < line.length(); i++)
     {
         if(((i == (pos + 1)) && line[i] != ' ') || line[pos+2] == '.')
             errorParse(1);

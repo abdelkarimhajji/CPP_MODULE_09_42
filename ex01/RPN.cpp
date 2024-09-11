@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 12:09:42 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/31 15:50:06 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 14:54:08 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void RPN::returnIndex(char arg, char *operations, int *index, int size)
 
 void    RPN::displayContainer(std::vector<int> &container)
 {
-    for (int i = 0; i < container.size(); i++)
+    for (size_t i = 0; i < container.size(); i++)
         std::cout << container[i] << std::endl;
 }
 

@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:07:16 by ahajji            #+#    #+#             */
-/*   Updated: 2024/08/30 12:08:08 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 14:50:10 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int main(int ac, char **av)
 {
-    if(ac != 2)
+    if(ac == 2)
     {
         BitcoinExchange bit(av[1]);
         bit.displayBitcoins();

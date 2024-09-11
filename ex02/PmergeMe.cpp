@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:20:55 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/11 08:24:34 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 16:31:02 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void    PmergeMe::error(std::string arg)
 
 void    PmergeMe::cheackDuplicate()
 {
-    for(int i = 0; i < args.size(); i++)
+    for(size_t i = 0; i < args.size(); i++)
     {
-        for(int j = i + 1; j < args.size(); j++)
+        for(size_t j = i + 1; j < args.size(); j++)
         {
             if(args[i] == args[j])
                 error("Duplicate Number");
@@ -93,7 +93,7 @@ void    PmergeMe::recursionFunction(int sizePair, int numberPairs)
     
     if(numberPairs < 1)
         return;
-    int count = numberPairs * sizePair;
+    size_t count = numberPairs * sizePair;
     while (count < args.size())
     {
         rest.push_back(args[count]);
@@ -134,7 +134,7 @@ void    PmergeMe::recursionFunction(int sizePair, int numberPairs)
     recursionFunction(sizePair * 2, numberPairs / 2);
     if(!rest.empty())
     {
-        for(int i = 0; i < rest.size();i++)
+        for(size_t i = 0; i < rest.size();i++)
             args.push_back(rest[i]);
     }
 }
@@ -146,7 +146,7 @@ void    PmergeMe::recursionFunction_(int sizePair, int numberPairs)
     
     if(numberPairs < 1)
         return;
-    int count = numberPairs * sizePair;
+    size_t count = numberPairs * sizePair;
     while (count < args.size())
     {
         rest.push_back(args[count]);
@@ -187,7 +187,7 @@ void    PmergeMe::recursionFunction_(int sizePair, int numberPairs)
     recursionFunction(sizePair * 2, numberPairs / 2);
     if(!rest.empty())
     {
-        for(int i = 0; i < rest.size();i++)
+        for(size_t i = 0; i < rest.size();i++)
             args_.push_back(rest[i]);
     }
 }
@@ -196,25 +196,22 @@ std::vector<int>    PmergeMe::sortAll()
 {
     std::vector<int> largeNumbers;
     std::vector<int> smallNumbers;
-    for(int i = 0; i < args.size(); i++)
+    for(size_t i = 0; i < args.size(); i++)
     {
         if(i % 2 != 0)
             smallNumbers.push_back(args[i]);
         else    
             largeNumbers.push_back(args[i]);
     }
-    int tmp;
-    int valid = 0;
-    int j = 0;
-    for (int j = 0; j < largeNumbers.size(); j++) {
-        for (int i = j + 1; i < largeNumbers.size(); i++) {
+    for (size_t j = 0; j < largeNumbers.size(); j++) {
+        for (size_t i = j + 1; i < largeNumbers.size(); i++) {
             if (largeNumbers[j] > largeNumbers[i]) {
                 std::swap(largeNumbers[j],largeNumbers[i]);
             }
         }
     }
    
-    for(int i = 0; i < smallNumbers.size(); i++)
+    for(size_t i = 0; i < smallNumbers.size(); i++)
     {
         std::vector<int>::iterator lower = std::lower_bound(largeNumbers.begin(), largeNumbers.end(), smallNumbers[i]);
         largeNumbers.insert(lower, smallNumbers[i]);
@@ -226,24 +223,21 @@ std::deque<int>    PmergeMe::sortAll_()
 {
     std::deque<int> largeNumbers;
     std::deque<int> smallNumbers;
-    for(int i = 0; i < args.size(); i++)
+    for(size_t i = 0; i < args.size(); i++)
     {
         if(i % 2 != 0)
             smallNumbers.push_back(args[i]);
         else    
             largeNumbers.push_back(args[i]);
     }
-    int tmp;
-    int valid = 0;
-    int j = 0;
-    for (int j = 0; j < largeNumbers.size(); j++) {
-        for (int i = j + 1; i < largeNumbers.size(); i++) {
+    for (size_t j = 0; j < largeNumbers.size(); j++) {
+        for (size_t i = j + 1; i < largeNumbers.size(); i++) {
             if (largeNumbers[j] > largeNumbers[i]) {
                 std::swap(largeNumbers[j],largeNumbers[i]);
             }
         }
     }
-    for(int i = 0; i < smallNumbers.size(); i++)
+    for(size_t i = 0; i < smallNumbers.size(); i++)
     {
         std::deque<int>::iterator lower = std::lower_bound(largeNumbers.begin(), largeNumbers.end(), smallNumbers[i]);
         largeNumbers.insert(lower, smallNumbers[i]);
@@ -279,8 +273,8 @@ void    PmergeMe::sort()
     recursionFunction_(2, args_.size()/2);
     args_ = sortAll_();
     std::clock_t end2 = std::clock();
-    double diff2 = 1000.0 * (end-start) / CLOCKS_PER_SEC;
-    std::cout << "Time to process a range of " << args_.size() << " elements with std::list : " << diff2 << " us\n";
+    double diff2 = 1000.0 * (end2-start2) / CLOCKS_PER_SEC;
+    std::cout << "Time to process a range of " << args_.size() << " elements with std::deque : " << diff2 << " us\n";
 }
 
 
