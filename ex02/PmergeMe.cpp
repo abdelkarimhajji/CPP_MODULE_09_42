@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:20:55 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/11 08:16:12 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 08:19:04 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,14 +266,14 @@ void    PmergeMe::sort()
     if(args.size() > 5)
         std::cout << " [...]";
     std::cout << "\n";
-    std::cout << "Time to process a range of " << args.size() << " elements with std::[..] : " << diff << " us\n";
+    std::cout << "Time to process a range of " << args.size() << " elements with std::vector : " << diff << " us\n";
     std::clock_t start2 = std::clock();
     std::deque<int> before_ = this->args_;
     recursionFunction_(2, args_.size()/2);
     args_ = sortAll_();
     std::clock_t end2 = std::clock();
     double diff2 = 1000.0 * (end-start) / CLOCKS_PER_SEC;
-    std::cout << "Time to process a range of " << args_.size() << " elements with std::[..] : " << diff2 << " us\n";
+    std::cout << "Time to process a range of " << args_.size() << " elements with std::list : " << diff2 << " us\n";
 }
 
 
