@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:20:55 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/11 08:19:04 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 08:24:34 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,21 @@ PmergeMe::PmergeMe(int ac, char **av) : ac(ac)
 
 PmergeMe::PmergeMe(const PmergeMe& other)
 {
-    // if(*this != other)
-    
+    this->args = other.args;
+    this->args_ = other.args_;
+    this->ac = other.ac;
 }
 
 
 
 PmergeMe& PmergeMe::operator=(const PmergeMe& other)
 {
+    if(this != &other)
+    {
+        this->args = other.args;
+        this->args_ = other.args_;
+        this->ac = other.ac;
+    }
     return *this;
 }
 
