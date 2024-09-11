@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:20:55 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/11 16:31:02 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 16:52:22 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,13 +256,13 @@ void    PmergeMe::sort()
     std::clock_t end = std::clock();
     double diff = 1000.0 * (end-start) / CLOCKS_PER_SEC;
     std::cout << "Before: ";
-    for(int i = 0; i < 5; i++)
+    for(size_t i = 0; i < (args.size() > 5 ? 5 : args.size()); i++)
         std::cout  << before[i] << " ";
     if(args.size() > 5)
         std::cout << " [...]";
     std::cout << "\n";
     std::cout << "After: ";
-    for(int i = 0; i < 5; i++)
+    for(size_t i = 0; i < (args.size() > 5 ? 5 : args.size()) ; i++)
         std::cout << args[i] << " ";
     if(args.size() > 5)
         std::cout << " [...]";
