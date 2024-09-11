@@ -6,7 +6,7 @@
 /*   By: ahajji <ahajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:14:45 by ahajji            #+#    #+#             */
-/*   Updated: 2024/09/11 14:51:36 by ahajji           ###   ########.fr       */
+/*   Updated: 2024/09/11 19:22:54 by ahajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,8 +280,4 @@ void    BitcoinExchange::displayBitcoins()
 {
     parseData();
     parseFile();
-    // std::map<std::string, float>::iterator it;
-    // for (it = this->dataValue.begin(); it != this->dataValue.end(); ++it) {
-    //     std::cout << std::fixed <<"Key: " << it->first << ", Value: " << it->second << "\n";
-    // }
 }
